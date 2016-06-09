@@ -1,0 +1,19 @@
+# Package files
+*.war
+*.ear
+
+# Compilation directory
+target/
+out/
+
+# IntelliJ configuration files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse configuration files
+.classpath
+.project
+.settings/
+
