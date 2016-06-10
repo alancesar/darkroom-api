@@ -18,9 +18,11 @@ public class Effect {
 
     public void colorTone(String color, int level, boolean negate) {
         IMOperation op = new IMOperation();
-
         op.addImage(input.getAbsolutePath());
-        op.set("colorspace", "RGB");
+        
+        IMOperation colorspace = new IMOperation();
+        colorspace.set("colorspace", "RGB");
+        op.addSubOperation(colorspace);
 
         IMOperation sub1 = new IMOperation();
         sub1.clone(0);
