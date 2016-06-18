@@ -70,6 +70,13 @@ public class Darkroom {
     public File resize(int width) {
         return resize(width, 0);
     }
+    
+    public File limitSize(int width) {
+    	if (Operators.getImageSize(input).get("width") > width)
+    		return resize(width);
+    	
+    	return input;
+    }
 
     public File compress(double quality) {
     	if (quality < 0.0 || quality > 100.0)
