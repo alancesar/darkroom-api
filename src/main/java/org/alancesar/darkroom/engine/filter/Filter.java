@@ -1,23 +1,25 @@
 package org.alancesar.darkroom.engine.filter;
 
+import org.alancesar.darkroom.engine.editor.Image;
+
 public enum Filter {
-    NO_FILTER(0, "Original", "nofilter", Original.class),
-    GOTHAM(1, "Gotham", "gotham", Gotham.class),
-    TOASTER(2, "Toaster", "toaster", Toaster.class),
-    NASHVILLE(3, "Nashville", "nashvile", Nashville.class),
-    LOMO(4, "Lomo", "lomo", Lomo.class),
-    KELVIN(5, "Kelvin", "kelvin", Kelvin.class);
+    NO_FILTER(0, "Original", "nofilter", (image) -> {}),
+    GOTHAM(1, "Gotham", "gotham", new Gotham()),
+    TOASTER(2, "Toaster", "toaster", new Toaster()),
+    NASHVILLE(3, "Nashville", "nashvile", new Nashville()),
+    LOMO(4, "Lomo", "lomo", new Lomo()),
+    KELVIN(5, "Kelvin", "kelvin", new Kelvin());
 
     private transient final long id;
     private final String longName;
     private final String shortName;
-    private transient final Class<?> instance;
+    private transient final Operation operation;
 
-    Filter(long id, String longName, String shortName, Class<?> instance) {
+    Filter(long id, String longName, String shortName, Operation operation) {
         this.id = id;
         this.longName = longName;
         this.shortName = shortName;
-        this.instance = instance;
+        this.operation = operation;
     }
 
     public static Filter getByName(String name) {
@@ -50,11 +52,7 @@ public enum Filter {
         return shortName;
     }
 
-    public FilterEffect get() {
-        try {
-        	return (FilterEffect) instance.newInstance();
-        } catch (Exception e) {
-            return null;
-        }
+    public void apply(Image image) {
+    	operation.process(image);
     }
 }

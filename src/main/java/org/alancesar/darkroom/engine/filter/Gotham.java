@@ -5,10 +5,13 @@ import org.alancesar.darkroom.engine.editor.Image;
 import org.alancesar.darkroom.engine.editor.Processor;
 import org.im4java.core.IMOperation;
 
-public class Gotham implements FilterEffect {
-    @Override
-    public void apply(Image image) {
-        IMOperation op = new IMOperation();
+public class Gotham implements Operation {
+
+	@Override
+	public void process(Image image) {
+		int border = (int) (image.getWidth() * 0.05);
+		
+		IMOperation op = new IMOperation();
         op.addImage(image.getFile().getAbsolutePath());
         op.modulate(120d, 10d, 100d);
         op.fill("#222b6d");
@@ -16,8 +19,10 @@ public class Gotham implements FilterEffect {
         op.gamma(0.5);
         op.contrast();
         op.contrast();
+        op.shave(border);
         op.addImage(image.getFile().getAbsolutePath());
         Processor.runCommand(op);
-        new Effect(image).border();
-    }
+        
+        new Effect(image).border(border);
+	}
 }

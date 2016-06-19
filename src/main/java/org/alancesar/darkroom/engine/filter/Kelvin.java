@@ -4,10 +4,11 @@ import org.alancesar.darkroom.engine.editor.Image;
 import org.alancesar.darkroom.engine.editor.Processor;
 import org.im4java.core.IMOperation;
 
-public class Kelvin implements FilterEffect {
-    @Override
-    public void apply(Image image) {
-        int width = image.getWidth();
+public class Kelvin implements Operation {
+
+	@Override
+	public void process(Image image) {
+		int width = image.getWidth();
         int height = image.getHeight();
 
         IMOperation sub1 = new IMOperation();
@@ -27,5 +28,6 @@ public class Kelvin implements FilterEffect {
         op.addImage(image.getFile().getAbsolutePath());
 
         Processor.runCommand(op);
-    }
+	}
+
 }

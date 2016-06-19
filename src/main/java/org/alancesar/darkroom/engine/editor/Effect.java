@@ -5,12 +5,50 @@ import org.im4java.core.IMOperation;
 public class Effect {
     private Image input;
 
-    private static final int DEFAULT_BORDER_SIZE = 20;
     private static final String DEFAULT_BORDER_COLOR = "black";
     private static final double DEFAULT_CROP_FACTOR = 1.5;
+    private static final double DEFAULT_COMPRESS_QUALITY = 20;
+    private static final int MINIMUM_HEIGHT = 20;
 
     public Effect(Image image) {
         this.input = image;
+    }
+    
+    public void resize(int width, int height) {
+    	IMOperation op = new IMOperation();
+        op.addImage(input.getFile().getAbsolutePath());
+
+        if (height < MINIMUM_HEIGHT)
+        	op.resize(width);
+        else
+        	op.resize(width, height);
+
+        op.unsharp(1.5, 1.0, 1.5, 0.02);
+        op.addImage(input.getFile().getAbsolutePath());
+        Processor.runCommand(op);
+    }
+    
+    public void resize(int width) {
+    	IMOperation op = new IMOperation();
+        op.addImage(input.getFile().getAbsolutePath());
+        op.resize(width);
+        op.unsharp(1.5, 1.0, 1.5, 0.02);
+        op.addImage(input.getFile().getAbsolutePath());
+        Processor.runCommand(op);
+    }
+    
+    public void compress(double quality) {
+    	if (quality < 0.0 || quality > 100.0)
+    		quality = DEFAULT_COMPRESS_QUALITY;
+    	
+        IMOperation op = new IMOperation();
+        op.addImage(input.getFile().getAbsolutePath());
+        op.strip();
+        op.interlace("Plane");
+        op.gaussianBlur(0.05);
+        op.quality(quality);
+        op.addImage(input.getFile().getAbsolutePath());
+        Processor.runCommand(op);
     }
 
     public void colorTone(String color, int level, boolean negate) {
@@ -78,7 +116,7 @@ public class Effect {
         vignette("none", "black", DEFAULT_CROP_FACTOR);
     }
 
-    public void border(String color, int width) {
+    public void border(int width, String color) {
         IMOperation op = new IMOperation();
         op.addImage(input.getFile().getAbsolutePath());
         op.bordercolor(color);
@@ -87,10 +125,10 @@ public class Effect {
         Processor.runCommand(op);
     }
 
-    public void border() {
-        border(DEFAULT_BORDER_COLOR, DEFAULT_BORDER_SIZE);
+    public void border(int width) {
+        border(width, DEFAULT_BORDER_COLOR);
     }
-
+    
     public String radialGradient(String primaryColor, String secondaryColor) {
         return "radial-gradient:" + primaryColor + "-" + secondaryColor;
     }

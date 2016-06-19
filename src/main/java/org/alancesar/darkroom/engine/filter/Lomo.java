@@ -5,10 +5,11 @@ import org.alancesar.darkroom.engine.editor.Image;
 import org.alancesar.darkroom.engine.editor.Processor;
 import org.im4java.core.IMOperation;
 
-public class Lomo implements FilterEffect {
-    @Override
-    public void apply(Image image) {
-        IMOperation op = new IMOperation();
+public class Lomo implements Operation {
+
+	@Override
+	public void process(Image image) {
+		IMOperation op = new IMOperation();
         op.addImage(image.getFile().getAbsolutePath());
         op.channel("R");
         op.level();
@@ -19,5 +20,6 @@ public class Lomo implements FilterEffect {
         op.addImage(image.getFile().getAbsolutePath());
         Processor.runCommand(op);
         new Effect(image).vignette();
-    }
+	}
+
 }

@@ -2,12 +2,11 @@ package org.alancesar.darkroom.engine;
 
 import com.drew.imaging.ImageProcessingException;
 
+import org.alancesar.darkroom.engine.editor.Effect;
 import org.alancesar.darkroom.engine.editor.Image;
-import org.alancesar.darkroom.engine.editor.Processor;
 import org.alancesar.darkroom.engine.exif.Photo;
 import org.alancesar.darkroom.engine.filter.Filter;
 import org.alancesar.darkroom.engine.util.ExifReader;
-import org.im4java.core.IMOperation;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +18,6 @@ import java.util.Random;
 
 public class Darkroom {
 	private static final double DEFAULT_COMPRESS_QUALITY = 20;
-	private static final int MINIMUM_HEIGHT = 20;
 	
     private final Image input;
     private Image temp;
@@ -49,28 +47,20 @@ public class Darkroom {
 
     public File applyFilter(Filter filter) {
         createTempFile();
-        filter.get().apply(temp);
+        filter.apply(temp);
         return createOutput();
     }
 
     public File resize(int width, int height) {
         createTempFile();
-        IMOperation op = new IMOperation();
-        op.addImage(temp.getFile().getAbsolutePath());
-
-        if (height < MINIMUM_HEIGHT)
-        	op.resize(width);
-        else
-        	op.resize(width, height);
-
-        op.unsharp(1.5, 1.0, 1.5, 0.02);
-        op.addImage(temp.getFile().getAbsolutePath());
-        Processor.runCommand(op);
+        new Effect(temp).resize(width, height);
         return createOutput();
     }
 
     public File resize(int width) {
-        return resize(width, 0);
+    	createTempFile();
+        new Effect(temp).resize(width);
+        return createOutput();
     }
     
     public File limitSize(int width) {
@@ -81,18 +71,8 @@ public class Darkroom {
     }
 
     public File compress(double quality) {
-    	if (quality < 0.0 || quality > 100.0)
-    		quality = DEFAULT_COMPRESS_QUALITY;
-    	
         createTempFile();
-        IMOperation op = new IMOperation();
-        op.addImage(temp.getFile().getAbsolutePath());
-        op.strip();
-        op.interlace("Plane");
-        op.gaussianBlur(0.05);
-        op.quality(quality);
-        op.addImage(temp.getFile().getAbsolutePath());
-        Processor.runCommand(op);
+        new Effect(temp).compress(quality);
         return createOutput();
     }
     
