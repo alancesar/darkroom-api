@@ -1,20 +1,17 @@
 package org.alancesar.darkroom.engine.filter;
 
-import org.alancesar.darkroom.engine.editor.Operators;
+import org.alancesar.darkroom.engine.editor.Image;
+import org.alancesar.darkroom.engine.editor.Processor;
 import org.im4java.core.IMOperation;
-
-import java.io.File;
-import java.util.Map;
 
 public class Kelvin implements FilterEffect {
     @Override
-    public void apply(File input) {
-        Map<String, Integer> size = Operators.getImageSize(input);
-        int width = size.get("width");
-        int height = size.get("height");
+    public void apply(Image image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
 
         IMOperation sub1 = new IMOperation();
-        sub1.addImage(input.getAbsolutePath());
+        sub1.addImage(image.getFile().getAbsolutePath());
         sub1.autoGamma();
         sub1.modulate(120d, 50d, 100d);
 
@@ -27,8 +24,8 @@ public class Kelvin implements FilterEffect {
         op.addSubOperation(sub1);
         op.addSubOperation(sub2);
         op.compose("multiply");
-        op.addImage(input.getAbsolutePath());
+        op.addImage(image.getFile().getAbsolutePath());
 
-        Operators.runCommand(op);
+        Processor.runCommand(op);
     }
 }

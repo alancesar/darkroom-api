@@ -2,23 +2,20 @@ package org.alancesar.darkroom.engine.editor;
 
 import org.im4java.core.IMOperation;
 
-import java.io.File;
-import java.util.Map;
-
 public class Effect {
-    private File input;
+    private Image input;
 
     private static final int DEFAULT_BORDER_SIZE = 20;
     private static final String DEFAULT_BORDER_COLOR = "black";
     private static final double DEFAULT_CROP_FACTOR = 1.5;
 
-    public Effect(File input) {
-        this.input = input;
+    public Effect(Image image) {
+        this.input = image;
     }
 
     public void colorTone(String color, int level, boolean negate) {
         IMOperation op = new IMOperation();
-        op.addImage(input.getAbsolutePath());
+        op.addImage(input.getFile().getAbsolutePath());
         
         IMOperation colorspace = new IMOperation();
         colorspace.set("colorspace", "RGB");
@@ -42,22 +39,21 @@ public class Effect {
         op.define("compose:args=" + level + "," + (100 - level));
         op.composite();
 
-        op.addImage(input.getAbsolutePath());
+        op.addImage(input.getFile().getAbsolutePath());
 
-        Operators.runCommand(op);
+        Processor.runCommand(op);
     }
 
     public void vignette(String primaryColor, String secondaryColor, Double cropFactor) {
-        Map<String, Integer> size = Operators.getImageSize(input);
-        int width = size.get("width");
-        int height = size.get("height");
+        int width = input.getWidth();
+        int height = input.getHeight();
         Double x = width * cropFactor;
         Double y = height * cropFactor;
 
         IMOperation op = new IMOperation();
 
         IMOperation sub1 = new IMOperation();
-        sub1.addImage(input.getAbsolutePath());
+        sub1.addImage(input.getFile().getAbsolutePath());
         op.addSubOperation(sub1);
 
         IMOperation sub2 = new IMOperation();
@@ -69,9 +65,9 @@ public class Effect {
         op.addSubOperation(sub2);
         op.compose("multiply");
         op.flatten();
-        op.addImage(input.getAbsolutePath());
+        op.addImage(input.getFile().getAbsolutePath());
 
-        Operators.runCommand(op);
+        Processor.runCommand(op);
     }
 
     public void vignette(String primaryColor, String secondaryColor) {
@@ -84,11 +80,11 @@ public class Effect {
 
     public void border(String color, int width) {
         IMOperation op = new IMOperation();
-        op.addImage(input.getAbsolutePath());
+        op.addImage(input.getFile().getAbsolutePath());
         op.bordercolor(color);
         op.border(width);
-        op.addImage(input.getAbsolutePath());
-        Operators.runCommand(op);
+        op.addImage(input.getFile().getAbsolutePath());
+        Processor.runCommand(op);
     }
 
     public void border() {

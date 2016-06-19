@@ -1,7 +1,9 @@
 package org.alancesar.darkroom.engine;
 
 import com.drew.imaging.ImageProcessingException;
-import org.alancesar.darkroom.engine.editor.Operators;
+
+import org.alancesar.darkroom.engine.editor.Image;
+import org.alancesar.darkroom.engine.editor.Processor;
 import org.alancesar.darkroom.engine.exif.Photo;
 import org.alancesar.darkroom.engine.filter.Filter;
 import org.alancesar.darkroom.engine.util.ExifReader;
@@ -19,12 +21,12 @@ public class Darkroom {
 	private static final double DEFAULT_COMPRESS_QUALITY = 20;
 	private static final int MINIMUM_HEIGHT = 20;
 	
-    private final File input;
-    private File temp;
+    private final Image input;
+    private Image temp;
     private File output;
 
     public Darkroom(File input) {
-        this.input = input;
+        this.input = new Image(input);
         this.output = input;
     }
 
@@ -39,7 +41,7 @@ public class Darkroom {
 
     public Photo getExif() {
         try {
-        	return new ExifReader().readFromFile(input);
+        	return new ExifReader().readFromFile(input.getFile());
         } catch (IOException | ImageProcessingException e) {
         	throw new RuntimeException(e);
 		}
@@ -54,7 +56,7 @@ public class Darkroom {
     public File resize(int width, int height) {
         createTempFile();
         IMOperation op = new IMOperation();
-        op.addImage(temp.getAbsolutePath());
+        op.addImage(temp.getFile().getAbsolutePath());
 
         if (height < MINIMUM_HEIGHT)
         	op.resize(width);
@@ -62,8 +64,8 @@ public class Darkroom {
         	op.resize(width, height);
 
         op.unsharp(1.5, 1.0, 1.5, 0.02);
-        op.addImage(temp.getAbsolutePath());
-        Operators.runCommand(op);
+        op.addImage(temp.getFile().getAbsolutePath());
+        Processor.runCommand(op);
         return createOutput();
     }
 
@@ -72,10 +74,10 @@ public class Darkroom {
     }
     
     public File limitSize(int width) {
-    	if (Operators.getImageSize(input).get("width") > width)
+    	if (input.getWidth() > width)
     		return resize(width);
     	
-    	return input;
+    	return input.getFile();
     }
 
     public File compress(double quality) {
@@ -84,13 +86,13 @@ public class Darkroom {
     	
         createTempFile();
         IMOperation op = new IMOperation();
-        op.addImage(temp.getAbsolutePath());
+        op.addImage(temp.getFile().getAbsolutePath());
         op.strip();
         op.interlace("Plane");
         op.gaussianBlur(0.05);
         op.quality(quality);
-        op.addImage(temp.getAbsolutePath());
-        Operators.runCommand(op);
+        op.addImage(temp.getFile().getAbsolutePath());
+        Processor.runCommand(op);
         return createOutput();
     }
     
@@ -100,24 +102,24 @@ public class Darkroom {
 
     private void createTempFile() {
         try {
-            Path from = Paths.get(input.getAbsolutePath());
-            Path to = Paths.get(input.getParent(), Long.toString(new Random().nextInt(9999)));
-            temp = Files.copy(from, to).toFile();
+            Path from = Paths.get(input.getFile().getAbsolutePath());
+            Path to = Paths.get(input.getFile().getParent(), Long.toString(new Random().nextInt(9999)));
+            temp = new Image(Files.copy(from, to).toFile());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private File createOutput() {
-        Path from = Paths.get(temp.getAbsolutePath());
-        Path to = Paths.get(getOutput().getParent(), getOutput().getName());
+        Path from = Paths.get(temp.getFile().getAbsolutePath());
+        Path to = Paths.get(output.getParent(), output.getName());
         
         try {
 	        if (!Files.exists(to.getParent()))
 	            Files.createDirectories(to.getParent());
 	        
 	        File output = Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING).toFile();
-	        Files.delete(Paths.get(temp.getAbsolutePath()));
+	        Files.delete(Paths.get(temp.getFile().getAbsolutePath()));
 	        return output;
         } catch (IOException  e) {
         	throw new RuntimeException(e);
