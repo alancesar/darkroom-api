@@ -8,7 +8,8 @@ public enum Filter {
     TOASTER(2, "Toaster", "toaster", new Toaster()),
     NASHVILLE(3, "Nashville", "nashvile", new Nashville()),
     LOMO(4, "Lomo", "lomo", new Lomo()),
-    KELVIN(5, "Kelvin", "kelvin", new Kelvin());
+    KELVIN(5, "Kelvin", "kelvin", new Kelvin()),
+    NORMALIZE(6, "Normalize", "normalize", new Normalize());
 
     private transient final long id;
     private final String longName;

@@ -83,11 +83,6 @@ public class Effect {
     }
 
     public void vignette(String primaryColor, String secondaryColor, Double cropFactor) {
-        int width = input.getWidth();
-        int height = input.getHeight();
-        Double x = width * cropFactor;
-        Double y = height * cropFactor;
-
         IMOperation op = new IMOperation();
 
         IMOperation sub1 = new IMOperation();
@@ -95,10 +90,10 @@ public class Effect {
         op.addSubOperation(sub1);
 
         IMOperation sub2 = new IMOperation();
-        sub2.size(x.intValue(), y.intValue());
+        sub2.size((int) (input.getWidth() * cropFactor), (int) (input.getHeight() * cropFactor));
         sub2.addRawArgs(radialGradient(primaryColor, secondaryColor));
         sub2.gravity("center");
-        sub2.crop(width, height, 0, 0);
+        sub2.crop(input.getWidth(), input.getHeight(), 0, 0);
         sub2.p_repage();
         op.addSubOperation(sub2);
         op.compose("multiply");
