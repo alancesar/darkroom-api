@@ -3,57 +3,43 @@ package org.alancesar.darkroom.engine.filter;
 import org.alancesar.darkroom.engine.editor.Image;
 
 public enum Filter {
-    NO_FILTER(0, "Original", "nofilter", (image) -> {}),
-    GOTHAM(1, "Gotham", "gotham", new Gotham()),
-    TOASTER(2, "Toaster", "toaster", new Toaster()),
-    NASHVILLE(3, "Nashville", "nashvile", new Nashville()),
-    LOMO(4, "Lomo", "lomo", new Lomo()),
-    KELVIN(5, "Kelvin", "kelvin", new Kelvin()),
-    NORMALIZE(6, "Normalize", "normalize", new Normalize());
 
-    private transient final long id;
-    private final String longName;
-    private final String shortName;
-    private transient final Operation operation;
+	NO_FILTER("Original", "nofilter", (image) -> {
+	}),
 
-    Filter(long id, String longName, String shortName, Operation operation) {
-        this.id = id;
-        this.longName = longName;
-        this.shortName = shortName;
-        this.operation = operation;
-    }
+	GOTHAM("Gotham", "gotham", new Gotham()),
 
-    public static Filter getByName(String name) {
-        for (Filter f : Filter.values()) {
-            if (f.shortName.equalsIgnoreCase(name))
-                return f;
-        }
+	TOASTER("Toaster", "toaster", new Toaster()),
 
-        return Filter.NO_FILTER;
-    }
+	NASHVILLE("Nashville", "nashvile", new Nashville()),
 
-    public static Filter getById(long id) {
-        for (Filter f : Filter.values()) {
-            if (f.id == id)
-                return f;
-        }
+	LOMO("Lomo", "lomo", new Lomo()),
 
-        return null;
-    }
+	KELVIN("Kelvin", "kelvin", new Kelvin()),
 
-    public long getId() {
-        return id;
-    }
+	NORMALIZE("Normalize", "normalize", new Normalize());
 
-    public String getLongName() {
-        return longName;
-    }
+	public String longName;
+	public String shortName;
+	private transient Operation operation;
 
-    public String getShortName() {
-        return shortName;
-    }
+	Filter(String longName, String shortName, Operation operation) {
+		this.longName = longName;
+		this.shortName = shortName;
+		this.operation = operation;
+	}
 
-    public void apply(Image image) {
-    	operation.process(image);
-    }
+	public static Filter getByName(String name) {
+		for (Filter filter : Filter.values()) {
+			if (filter.shortName.equalsIgnoreCase(name)) {
+				return filter;
+			}
+		}
+
+		return Filter.NO_FILTER;
+	}
+
+	public void apply(Image image) {
+		operation.process(image);
+	}
 }
