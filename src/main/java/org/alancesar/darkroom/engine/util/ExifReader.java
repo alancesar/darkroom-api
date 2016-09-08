@@ -26,10 +26,13 @@ import com.drew.metadata.exif.GpsDirectory;
 
 public class ExifReader {
 	public PhotoExif readFromFile(File file) throws IOException, ImageProcessingException {
+
 		final Map<Exif, String> info = new HashMap<>();
 		final Metadata metadata = ImageMetadataReader.readMetadata(file);
 
-		Runnable runnableExifIFD0Directory = () -> {
+		ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+		executorService.submit(() -> {
 			ExifIFD0Directory exifIFD0Directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
 			if (exifIFD0Directory != null) {
 				for (Tag tag : exifIFD0Directory.getTags()) {
@@ -41,9 +44,9 @@ public class ExifReader {
 					}
 				}
 			}
-		};
+		});
 
-		Runnable runnableExifSubIFDDirectory = () -> {
+		executorService.submit(() -> {
 			ExifSubIFDDirectory exifSubIFDDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
 			if (exifSubIFDDirectory != null) {
 				for (Tag tag : exifSubIFDDirectory.getTags()) {
@@ -55,11 +58,8 @@ public class ExifReader {
 					}
 				}
 			}
-		};
+		});
 
-		ExecutorService executorService = Executors.newFixedThreadPool(2);
-		executorService.submit(runnableExifIFD0Directory);
-		executorService.submit(runnableExifSubIFDDirectory);
 		executorService.shutdown();
 
 		try {
@@ -69,6 +69,7 @@ public class ExifReader {
 		}
 
 		PhotoExif photo = new PhotoExif();
+		
 		photo.setFocalLength(info.get(Exif.FOCAL_LENGTH));
 		photo.setFocalLength35mm(info.get(Exif.FOFAL_LENGTH_35MM));
 		photo.setExposureTime(

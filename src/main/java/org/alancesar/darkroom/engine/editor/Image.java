@@ -7,12 +7,10 @@ import javax.imageio.ImageIO;
 
 public class Image {
 
-	private File file;
 	private int width;
 	private int height;
 
 	public Image(File file) {
-		this.file = file;
 
 		try {
 			BufferedImage bufferedImage = ImageIO.read(file);
@@ -23,15 +21,13 @@ public class Image {
 		}
 	}
 
-	public File getFile() {
-		return file;
-	}
-
 	public int getWidth() {
+
 		return width;
 	}
 
 	public int getHeight() {
+
 		return height;
 	}
 }

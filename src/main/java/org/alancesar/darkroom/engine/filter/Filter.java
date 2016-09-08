@@ -1,6 +1,6 @@
 package org.alancesar.darkroom.engine.filter;
 
-import org.alancesar.darkroom.engine.editor.Image;
+import java.io.File;
 
 public enum Filter {
 
@@ -24,12 +24,14 @@ public enum Filter {
 	private transient Operation operation;
 
 	Filter(String longName, String shortName, Operation operation) {
+
 		this.longName = longName;
 		this.shortName = shortName;
 		this.operation = operation;
 	}
 
 	public static Filter getByName(String name) {
+
 		for (Filter filter : Filter.values()) {
 			if (filter.shortName.equalsIgnoreCase(name)) {
 				return filter;
@@ -39,7 +41,8 @@ public enum Filter {
 		return Filter.NO_FILTER;
 	}
 
-	public void apply(Image image) {
-		operation.process(image);
+	public void apply(File input) {
+
+		operation.process(input);
 	}
 }

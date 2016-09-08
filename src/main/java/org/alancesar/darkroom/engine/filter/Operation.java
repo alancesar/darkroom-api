@@ -1,8 +1,9 @@
 package org.alancesar.darkroom.engine.filter;
 
-import org.alancesar.darkroom.engine.editor.Image;
+import java.io.File;
 
 @FunctionalInterface
 public interface Operation {
-	void process(Image image);
+
+	void process(File file);
 }
