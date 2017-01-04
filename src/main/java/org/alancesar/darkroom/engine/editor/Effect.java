@@ -2,6 +2,7 @@ package org.alancesar.darkroom.engine.editor;
 
 import java.io.File;
 
+import org.im4java.core.ConvertCmd;
 import org.im4java.core.IMOperation;
 
 public class Effect {
@@ -10,6 +11,7 @@ public class Effect {
 	private static final double DEFAULT_CROP_FACTOR = 1.5;
 	private static final double DEFAULT_COMPRESS_QUALITY = 20;
 	private static final int MINIMUM_HEIGHT = 20;
+	private static final ConvertCmd CMD = new ConvertCmd();
 
 	public static void resize(File input, int width, int height) {
 		IMOperation op = new IMOperation();
@@ -23,7 +25,7 @@ public class Effect {
 
 		op.unsharp(1.5, 1.0, 1.5, 0.02);
 		op.addImage(input.getAbsolutePath());
-		Processor.runCommand(op);
+		runCommand(op);
 	}
 
 	public static void resize(File input, int width) {
@@ -32,7 +34,7 @@ public class Effect {
 		op.resize(width);
 		op.unsharp(1.5, 1.0, 1.5, 0.02);
 		op.addImage(input.getAbsolutePath());
-		Processor.runCommand(op);
+		runCommand(op);
 	}
 
 	public static void compress(File input, double quality) {
@@ -47,7 +49,7 @@ public class Effect {
 		op.gaussianBlur(0.05);
 		op.quality(quality);
 		op.addImage(input.getAbsolutePath());
-		Processor.runCommand(op);
+		runCommand(op);
 	}
 
 	public static void colorTone(File input, String color, int level, boolean negate) {
@@ -81,7 +83,7 @@ public class Effect {
 
 		op.addImage(input.getAbsolutePath());
 
-		Processor.runCommand(op);
+		runCommand(op);
 	}
 
 	public static void vignette(File input, String primaryColor, String secondaryColor, Double cropFactor) {
@@ -107,7 +109,7 @@ public class Effect {
 		op.flatten();
 		op.addImage(input.getAbsolutePath());
 
-		Processor.runCommand(op);
+		runCommand(op);
 	}
 
 	public static void vignette(File input, String primaryColor, String secondaryColor) {
@@ -124,10 +126,18 @@ public class Effect {
 		op.bordercolor(color);
 		op.border(width);
 		op.addImage(input.getAbsolutePath());
-		Processor.runCommand(op);
+		runCommand(op);
 	}
 
 	public static void border(File input, int width) {
 		border(input, width, DEFAULT_BORDER_COLOR);
 	}
+	
+	private static void runCommand(IMOperation op) {
+        try {
+            CMD.run(op);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -3,7 +3,6 @@ package org.alancesar.darkroom.engine.filter;
 import java.io.File;
 
 import org.alancesar.darkroom.engine.editor.Image;
-import org.alancesar.darkroom.engine.editor.Processor;
 import org.im4java.core.IMOperation;
 
 public class Kelvin implements Filter {
@@ -31,7 +30,7 @@ public class Kelvin implements Filter {
 		op.compose("multiply");
 		op.addImage(input.getAbsolutePath());
 
-		Processor.runCommand(op);
+		runCommand(op);
 	}
 
 }

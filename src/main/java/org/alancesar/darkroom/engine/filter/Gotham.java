@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.alancesar.darkroom.engine.editor.Effect;
 import org.alancesar.darkroom.engine.editor.Image;
-import org.alancesar.darkroom.engine.editor.Processor;
 import org.im4java.core.IMOperation;
 
 public class Gotham implements Filter {
@@ -26,7 +25,7 @@ public class Gotham implements Filter {
 		op.contrast();
 		op.shave(border);
 		op.addImage(input.getAbsolutePath());
-		Processor.runCommand(op);
+		runCommand(op);
 
 		Effect.border(input, border);
 	}

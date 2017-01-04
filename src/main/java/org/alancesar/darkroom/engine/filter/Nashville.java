@@ -3,7 +3,6 @@ package org.alancesar.darkroom.engine.filter;
 import java.io.File;
 
 import org.alancesar.darkroom.engine.editor.Effect;
-import org.alancesar.darkroom.engine.editor.Processor;
 import org.im4java.core.IMOperation;
 
 public class Nashville implements Filter {
@@ -20,7 +19,7 @@ public class Nashville implements Filter {
 		op.modulate(100d, 150d, 100d);
 		op.autoGamma();
 		op.addImage(input.getAbsolutePath());
-		Processor.runCommand(op);
+		runCommand(op);
 	}
 
 }

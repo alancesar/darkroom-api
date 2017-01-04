@@ -3,7 +3,6 @@ package org.alancesar.darkroom.engine.filter;
 import java.io.File;
 
 import org.alancesar.darkroom.engine.editor.Effect;
-import org.alancesar.darkroom.engine.editor.Processor;
 import org.im4java.core.IMOperation;
 
 public class Lomo implements Filter {
@@ -20,7 +19,7 @@ public class Lomo implements Filter {
 		op.level();
 		op.addRawArgs("33%");
 		op.addImage(input.getAbsolutePath());
-		Processor.runCommand(op);
+		runCommand(op);
 		Effect.vignette(input);
 	}
 
