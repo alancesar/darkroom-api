@@ -5,12 +5,11 @@ import org.im4java.core.IMOperation;
 
 public abstract class Processor {
 
-	public static void runCommand(IMOperation op) {
-
-		try {
-			new ConvertCmd().run(op);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+    public static void runCommand(IMOperation op) {
+        try {
+            new ConvertCmd().run(op);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

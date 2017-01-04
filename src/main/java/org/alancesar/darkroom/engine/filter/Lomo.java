@@ -6,22 +6,22 @@ import org.alancesar.darkroom.engine.editor.Effect;
 import org.alancesar.darkroom.engine.editor.Processor;
 import org.im4java.core.IMOperation;
 
-public class Lomo implements Operation {
+public class Lomo implements Filter {
 
 	@Override
-	public void process(File file) {
+	public void apply(File input) {
 
 		IMOperation op = new IMOperation();
-		op.addImage(file.getAbsolutePath());
+		op.addImage(input.getAbsolutePath());
 		op.channel("R");
 		op.level();
 		op.addRawArgs("33%");
 		op.channel("G");
 		op.level();
 		op.addRawArgs("33%");
-		op.addImage(file.getAbsolutePath());
+		op.addImage(input.getAbsolutePath());
 		Processor.runCommand(op);
-		new Effect(file).vignette();
+		Effect.vignette(input);
 	}
 
 }

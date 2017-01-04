@@ -1,62 +1,95 @@
 package org.alancesar.darkroom.engine.exif;
 
-import com.drew.metadata.exif.ExifIFD0Directory;
-import com.drew.metadata.exif.ExifSubIFDDirectory;
+public class Exif {
 
-public enum Exif {
+    private CameraExif camera;
+    private LensExif lens;
+    private LocationExif location;
+    private String focalLength;
+    private String focalLength35mm;
+    private String exposureTime;
+    private String aperture;
+    private String iso;
+    private String flash;
+    private String whiteBalance;
 
-	CAMERA_MAKE(ExifSubIFDDirectory.TAG_MAKE, ExifSubIFDDirectory.TAG_MAKE),
+    public CameraExif getCamera() {
+        return camera;
+    }
 
-	CAMERA_MODEL(ExifSubIFDDirectory.TAG_MODEL, ExifSubIFDDirectory.TAG_MODEL),
+    public void setCamera(CameraExif camera) {
+        this.camera = camera;
+    }
 
-	LENS_MAKE(ExifSubIFDDirectory.TAG_LENS_MAKE, ExifSubIFDDirectory.TAG_LENS_MAKE),
+    public LensExif getLens() {
+        return lens;
+    }
 
-	LENS_MODEL(ExifSubIFDDirectory.TAG_LENS_MODEL, ExifSubIFDDirectory.TAG_LENS_MODEL),
+    public void setLens(LensExif lens) {
+        this.lens = lens;
+    }
+    
+    public LocationExif getLocation() {
+        return location;
+    }
 
-	FOCAL_LENGTH(ExifIFD0Directory.TAG_FOCAL_LENGTH, ExifSubIFDDirectory.TAG_FOCAL_LENGTH),
+    public void setLocation(LocationExif location) {
+        this.location = location;
+    }
 
-	FOFAL_LENGTH_35MM(ExifIFD0Directory.TAG_35MM_FILM_EQUIV_FOCAL_LENGTH,
-			ExifSubIFDDirectory.TAG_35MM_FILM_EQUIV_FOCAL_LENGTH),
+    public String getFocalLength() {
+        return focalLength;
+    }
 
-	EXPOSURE_TIME(ExifIFD0Directory.TAG_EXPOSURE_TIME, ExifSubIFDDirectory.TAG_EXPOSURE_TIME),
+    public void setFocalLength(String focalLength) {
+        this.focalLength = focalLength;
+    }
 
-	SHUTTER_SPEED(ExifIFD0Directory.TAG_SHUTTER_SPEED, ExifSubIFDDirectory.TAG_SHUTTER_SPEED),
+    public String getFocalLength35mm() {
+        return focalLength35mm;
+    }
 
-	APERTURE(ExifIFD0Directory.TAG_APERTURE, ExifSubIFDDirectory.TAG_APERTURE),
+    public void setFocalLength35mm(String focalLength35mm) {
+        this.focalLength35mm = focalLength35mm;
+    }
 
-	F_NUMBER(ExifIFD0Directory.TAG_FNUMBER, ExifSubIFDDirectory.TAG_FNUMBER),
+    public String getExposureTime() {
+        return exposureTime;
+    }
 
-	ISO(ExifIFD0Directory.TAG_ISO_EQUIVALENT, ExifSubIFDDirectory.TAG_ISO_EQUIVALENT),
+    public void setExposureTime(String exposureTime) {
+        this.exposureTime = exposureTime;
+    }
 
-	FLASH(ExifIFD0Directory.TAG_FLASH, ExifSubIFDDirectory.TAG_FLASH),
+    public String getAperture() {
+        return aperture;
+    }
 
-	WHITE_BALANCE(ExifIFD0Directory.TAG_WHITE_BALANCE, ExifSubIFDDirectory.TAG_WHITE_BALANCE);
+    public void setAperture(String aperture) {
+        this.aperture = aperture;
+    }
 
-	public int exifIFD0Directory;
-	public int exifSubIFDDirectory;
+    public String getIso() {
+        return iso;
+    }
 
-	Exif(int exifIFD0Directory, int exifSubIFDDirectory) {
-		this.exifIFD0Directory = exifIFD0Directory;
-		this.exifSubIFDDirectory = exifSubIFDDirectory;
-	}
+    public void setIso(String iso) {
+        this.iso = iso;
+    }
 
-	public static Exif getByExifIFD0Directory(int exifIFD0Directory) {
-		for (Exif exif : Exif.values()) {
-			if (exif.exifIFD0Directory == exifIFD0Directory) {
-				return exif;
-			}
-		}
+    public String getFlash() {
+        return flash;
+    }
 
-		return null;
-	}
+    public void setFlash(String flash) {
+        this.flash = flash;
+    }
 
-	public static Exif getByExifSubIFDDirectory(int exifSubIFDDirectory) {
-		for (Exif exif : Exif.values()) {
-			if (exif.exifSubIFDDirectory == exifSubIFDDirectory) {
-				return exif;
-			}
-		}
+    public String getWhiteBalance() {
+        return whiteBalance;
+    }
 
-		return null;
-	}
+    public void setWhiteBalance(String whiteBalance) {
+        this.whiteBalance = whiteBalance;
+    }
 }

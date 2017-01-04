@@ -5,20 +5,13 @@ import java.io.File;
 import org.im4java.core.IMOperation;
 
 public class Effect {
-	private File input;
-
+    
 	private static final String DEFAULT_BORDER_COLOR = "black";
 	private static final double DEFAULT_CROP_FACTOR = 1.5;
 	private static final double DEFAULT_COMPRESS_QUALITY = 20;
 	private static final int MINIMUM_HEIGHT = 20;
 
-	public Effect(File input) {
-
-		this.input = input;
-	}
-
-	public void resize(int width, int height) {
-
+	public static void resize(File input, int width, int height) {
 		IMOperation op = new IMOperation();
 		op.addImage(input.getAbsolutePath());
 
@@ -33,8 +26,7 @@ public class Effect {
 		Processor.runCommand(op);
 	}
 
-	public void resize(int width) {
-
+	public static void resize(File input, int width) {
 		IMOperation op = new IMOperation();
 		op.addImage(input.getAbsolutePath());
 		op.resize(width);
@@ -43,8 +35,7 @@ public class Effect {
 		Processor.runCommand(op);
 	}
 
-	public void compress(double quality) {
-
+	public static void compress(File input, double quality) {
 		if (quality < 0.0 || quality > 100.0) {
 			quality = DEFAULT_COMPRESS_QUALITY;
 		}
@@ -59,8 +50,7 @@ public class Effect {
 		Processor.runCommand(op);
 	}
 
-	public void colorTone(String color, int level, boolean negate) {
-
+	public static void colorTone(File input, String color, int level, boolean negate) {
 		IMOperation op = new IMOperation();
 		op.addImage(input.getAbsolutePath());
 
@@ -94,8 +84,7 @@ public class Effect {
 		Processor.runCommand(op);
 	}
 
-	public void vignette(String primaryColor, String secondaryColor, Double cropFactor) {
-
+	public static void vignette(File input, String primaryColor, String secondaryColor, Double cropFactor) {
 		Image image = new Image(input);
 
 		IMOperation op = new IMOperation();
@@ -106,7 +95,10 @@ public class Effect {
 
 		IMOperation sub2 = new IMOperation();
 		sub2.size((int) (image.getWidth() * cropFactor), (int) (image.getHeight() * cropFactor));
-		sub2.addRawArgs(radialGradient(primaryColor, secondaryColor));
+		
+		String radialGradiente = "radial-gradient:" + primaryColor + "-" + secondaryColor;
+		
+		sub2.addRawArgs(radialGradiente);
 		sub2.gravity("center");
 		sub2.crop(image.getWidth(), image.getHeight(), 0, 0);
 		sub2.p_repage();
@@ -118,18 +110,15 @@ public class Effect {
 		Processor.runCommand(op);
 	}
 
-	public void vignette(String primaryColor, String secondaryColor) {
-
-		vignette(primaryColor, secondaryColor, DEFAULT_CROP_FACTOR);
+	public static void vignette(File input, String primaryColor, String secondaryColor) {
+		vignette(input, primaryColor, secondaryColor, DEFAULT_CROP_FACTOR);
 	}
 
-	public void vignette() {
-
-		vignette("none", "black", DEFAULT_CROP_FACTOR);
+	public static void vignette(File input) {
+		vignette(input, "none", "black", DEFAULT_CROP_FACTOR);
 	}
 
-	public void border(int width, String color) {
-
+	public static void border(File input, int width, String color) {
 		IMOperation op = new IMOperation();
 		op.addImage(input.getAbsolutePath());
 		op.bordercolor(color);
@@ -138,13 +127,7 @@ public class Effect {
 		Processor.runCommand(op);
 	}
 
-	public void border(int width) {
-
-		border(width, DEFAULT_BORDER_COLOR);
-	}
-
-	public String radialGradient(String primaryColor, String secondaryColor) {
-
-		return "radial-gradient:" + primaryColor + "-" + secondaryColor;
+	public static void border(File input, int width) {
+		border(input, width, DEFAULT_BORDER_COLOR);
 	}
 }

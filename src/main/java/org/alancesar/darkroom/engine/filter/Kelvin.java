@@ -6,17 +6,17 @@ import org.alancesar.darkroom.engine.editor.Image;
 import org.alancesar.darkroom.engine.editor.Processor;
 import org.im4java.core.IMOperation;
 
-public class Kelvin implements Operation {
+public class Kelvin implements Filter {
 
 	@Override
-	public void process(File file) {
+	public void apply(File input) {
 
-		Image image = new Image(file);
+		Image image = new Image(input);
 		int width = image.getWidth();
 		int height = image.getHeight();
 
 		IMOperation sub1 = new IMOperation();
-		sub1.addImage(file.getAbsolutePath());
+		sub1.addImage(input.getAbsolutePath());
 		sub1.autoGamma();
 		sub1.modulate(120d, 50d, 100d);
 
@@ -29,7 +29,7 @@ public class Kelvin implements Operation {
 		op.addSubOperation(sub1);
 		op.addSubOperation(sub2);
 		op.compose("multiply");
-		op.addImage(file.getAbsolutePath());
+		op.addImage(input.getAbsolutePath());
 
 		Processor.runCommand(op);
 	}

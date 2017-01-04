@@ -6,25 +6,24 @@ import org.alancesar.darkroom.engine.editor.Effect;
 import org.alancesar.darkroom.engine.editor.Processor;
 import org.im4java.core.IMOperation;
 
-public class Toaster implements Operation {
+public class Toaster implements Filter {
 
 	@Override
-	public void process(File file) {
+	public void apply(File input) {
 
-		Effect effect = new Effect(file);
-		effect.colorTone("#330000", 100, true);
+		Effect.colorTone(input, "#330000", 100, true);
 
 		IMOperation op = new IMOperation();
-		op.addImage(file.getAbsolutePath());
+		op.addImage(input.getAbsolutePath());
 		op.modulate(150d, 80d, 100d);
 		op.gamma(1.2);
 		op.contrast();
 		op.contrast();
-		op.addImage(file.getAbsolutePath());
+		op.addImage(input.getAbsolutePath());
 		Processor.runCommand(op);
 
-		effect.vignette("none", "LavenderBlush3");
-		effect.vignette("#ff9966", "none");
+		Effect.vignette(input, "none", "LavenderBlush3");
+		Effect.vignette(input, "#ff9966", "none");
 	}
 
 }
