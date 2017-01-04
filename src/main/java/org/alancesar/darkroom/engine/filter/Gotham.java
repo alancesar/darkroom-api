@@ -8,25 +8,25 @@ import org.im4java.core.IMOperation;
 
 public class Gotham implements Filter {
 
-	@Override
-	public void apply(File input) {
+    @Override
+    public void apply(File input) {
 
-		Image image = new Image(input);
+        Image image = new Image(input);
 
-		int border = (int) (image.getWidth() * 0.05);
+        int border = (int) (image.getWidth() * 0.05);
 
-		IMOperation op = new IMOperation();
-		op.addImage(input.getAbsolutePath());
-		op.modulate(120d, 10d, 100d);
-		op.fill("#222b6d");
-		op.colorize(20);
-		op.gamma(0.5);
-		op.contrast();
-		op.contrast();
-		op.shave(border);
-		op.addImage(input.getAbsolutePath());
-		runCommand(op);
+        IMOperation op = new IMOperation();
+        op.addImage(input.getAbsolutePath());
+        op.modulate(120d, 10d, 100d);
+        op.fill("#222b6d");
+        op.colorize(20);
+        op.gamma(0.5);
+        op.contrast();
+        op.contrast();
+        op.shave(border);
+        op.addImage(input.getAbsolutePath());
+        runCommand(op);
 
-		Effect.border(input, border);
-	}
+        Effect.border(input, border);
+    }
 }

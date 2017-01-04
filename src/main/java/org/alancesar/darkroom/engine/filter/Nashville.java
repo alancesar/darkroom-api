@@ -7,19 +7,19 @@ import org.im4java.core.IMOperation;
 
 public class Nashville implements Filter {
 
-	@Override
-	public void apply(File input) {
+    @Override
+    public void apply(File input) {
 
-		Effect.colorTone(input, "#222b6d", 100, true);
-		Effect.colorTone(input, "#f7daae", 100, false);
+        Effect.colorTone(input, "#222b6d", 100, true);
+        Effect.colorTone(input, "#f7daae", 100, false);
 
-		IMOperation op = new IMOperation();
-		op.addImage(input.getAbsolutePath());
-		op.contrast();
-		op.modulate(100d, 150d, 100d);
-		op.autoGamma();
-		op.addImage(input.getAbsolutePath());
-		runCommand(op);
-	}
+        IMOperation op = new IMOperation();
+        op.addImage(input.getAbsolutePath());
+        op.contrast();
+        op.modulate(100d, 150d, 100d);
+        op.autoGamma();
+        op.addImage(input.getAbsolutePath());
+        runCommand(op);
+    }
 
 }
