@@ -9,6 +9,8 @@ import org.alancesar.darkroom.engine.editor.Effect;
 import org.alancesar.darkroom.engine.editor.Image;
 import org.alancesar.darkroom.engine.exif.Exif;
 import org.alancesar.darkroom.engine.filter.Filter;
+import org.alancesar.darkroom.engine.filter.FilterFactory;
+import org.alancesar.darkroom.engine.filter.Filters;
 import org.alancesar.darkroom.engine.util.ExifReader;
 
 import com.drew.imaging.ImageProcessingException;
@@ -51,6 +53,18 @@ public class Darkroom {
         createTempFile();
         filter.apply(temp);
         createOutput();
+    }
+    
+    public void applyFilter(String filterName) {
+        Filter filter = FilterFactory.getByName(filterName);
+        
+        if (filter != null) {
+            applyFilter(filter);
+        }
+    }
+    
+    public void applyFilter(Filters filter) {
+        applyFilter(FilterFactory.get(filter));
     }
 
     public void resize(int width, int height) {
