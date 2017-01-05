@@ -1,10 +1,19 @@
 package org.alancesar.darkroom.engine.filter;
 
 public enum Filters {
-    Gotham(new Gotham(), "Gotham", "gotham"), Kelvin(new Kelvin(), "Kelvin", "kelvin"), Lomo(new Lomo(), "Lomo",
-            "lomo"), Nashvile(new Nashville(), "Nashvile", "nashvile"), Normalize(new Normalize(), "Normalize",
-                    "normalize"), Toaster(new Toaster(), "Toaster", "toaster"), NoFilter((input) -> {
-                    }, "No Filter", "nofilter");
+    Gotham(new Gotham(), "Gotham", "gotham"),
+
+    Kelvin(new Kelvin(), "Kelvin", "kelvin"),
+
+    Lomo(new Lomo(), "Lomo", "lomo"),
+
+    Nashvile(new Nashville(), "Nashvile", "nashvile"),
+
+    Normalize(new Normalize(), "Normalize", "normalize"),
+
+    Toaster(new Toaster(), "Toaster", "toaster"),
+
+    NoFilter((input) -> {}, "No Filter", "nofilter");
 
     private Filter filter;
     private String longName;

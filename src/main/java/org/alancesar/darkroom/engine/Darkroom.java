@@ -79,9 +79,9 @@ public class Darkroom {
         createOutput();
     }
 
-    public void limitSize(int width) {
-        if (new Image(input).getWidth() > width) {
-            resize(width);
+    public void limitSize(int maxWidth) {
+        if (new Image(input).getWidth() > maxWidth) {
+            resize(maxWidth);
         }
     }
 
