@@ -2,25 +2,21 @@ package org.alancesar.darkroom.engine;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
-import org.alancesar.darkroom.engine.editor.Effect;
-import org.alancesar.darkroom.engine.editor.Image;
+import org.alancesar.darkroom.engine.effect.CompressEffect;
+import org.alancesar.darkroom.engine.effect.ResizeEffect;
 import org.alancesar.darkroom.engine.exif.Exif;
+import org.alancesar.darkroom.engine.exif.ExifReader;
 import org.alancesar.darkroom.engine.filter.Filter;
-import org.alancesar.darkroom.engine.filter.FilterFactory;
 import org.alancesar.darkroom.engine.filter.Filters;
-import org.alancesar.darkroom.engine.util.ExifReader;
-
-import com.drew.imaging.ImageProcessingException;
+import org.alancesar.darkroom.engine.model.Image;
+import org.alancesar.darkroom.engine.processor.OutputFileProcessor;
+import org.alancesar.darkroom.engine.processor.Processor;
+import org.alancesar.darkroom.engine.processor.TempFileProcessor;
 
 public class Darkroom {
 
-    private static final double DEFAULT_COMPRESS_QUALITY = 20;
-    private static ExifReader reader;
     private final File input;
-    private File temp;
     private File output;
 
     public Darkroom(File input) {
@@ -39,79 +35,85 @@ public class Darkroom {
 
     public Exif getExif() {
         try {
-            if (reader == null) {
-                reader = new ExifReader();
-            }
-
-            return reader.readFromFile(input);
-        } catch (IOException | ImageProcessingException e) {
+            return ExifReader.getInstance().readFromFile(input);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void applyFilter(Filter filter) {
-        createTempFile();
-        filter.apply(temp);
-        createOutput();
+        Processor tempFileProcessor = new TempFileProcessor();
+        Processor effectProcessor = filter.effect();
+        Processor outputFileProcessor = new OutputFileProcessor(output);
+
+        tempFileProcessor.next(effectProcessor);
+        effectProcessor.next(outputFileProcessor);
+
+        tempFileProcessor.process(input);
     }
-    
+
     public void applyFilter(String filterName) {
-        Filter filter = FilterFactory.getByName(filterName);
-        
+        Filter filter = Filters.getByName(filterName);
+
         if (filter != null) {
             applyFilter(filter);
         }
     }
-    
-    public void applyFilter(Filters filter) {
-        applyFilter(FilterFactory.get(filter));
-    }
 
     public void resize(int width, int height) {
-        createTempFile();
-        Effect.resize(temp, width, height);
-        createOutput();
+        Processor tempFileProcessor = new TempFileProcessor();
+        Processor effectProcessor = new ResizeEffect(width, height);
+        Processor outputFileProcessor = new OutputFileProcessor(output);
+
+        tempFileProcessor.next(effectProcessor);
+        effectProcessor.next(outputFileProcessor);
+
+        tempFileProcessor.process(input);
     }
 
     public void resize(int width) {
-        createTempFile();
-        Effect.resize(temp, width);
-        createOutput();
+        Processor tempFileProcessor = new TempFileProcessor();
+        Processor effectProcessor = new ResizeEffect(width);
+        Processor outputFileProcessor = new OutputFileProcessor(output);
+
+        tempFileProcessor.next(effectProcessor);
+        effectProcessor.next(outputFileProcessor);
+
+        tempFileProcessor.process(input);
     }
 
     public void limitSize(int maxWidth) {
         if (new Image(input).getWidth() > maxWidth) {
-            resize(maxWidth);
+            Processor tempFileProcessor = new TempFileProcessor();
+            Processor effectProcessor = new ResizeEffect(maxWidth);
+            Processor outputFileProcessor = new OutputFileProcessor(output);
+
+            tempFileProcessor.next(effectProcessor);
+            effectProcessor.next(outputFileProcessor);
+
+            tempFileProcessor.process(input);
         }
     }
 
     public void compress(double quality) {
-        createTempFile();
-        Effect.compress(temp, quality);
-        createOutput();
+        Processor tempFileProcessor = new TempFileProcessor();
+        Processor effectProcessor = new CompressEffect(quality);
+        Processor outputFileProcessor = new OutputFileProcessor(output);
+
+        tempFileProcessor.next(effectProcessor);
+        effectProcessor.next(outputFileProcessor);
+
+        tempFileProcessor.process(input);
     }
 
     public void compress() {
-        compress(DEFAULT_COMPRESS_QUALITY);
-    }
+        Processor tempFileProcessor = new TempFileProcessor();
+        Processor effectProcessor = new CompressEffect();
+        Processor outputFileProcessor = new OutputFileProcessor(output);
 
-    private void createTempFile() {
-        try {
-            temp = File.createTempFile("darkroom", ".jpg");
-            temp = Files.copy(input.toPath(), temp.toPath(), StandardCopyOption.COPY_ATTRIBUTES,
-                    StandardCopyOption.REPLACE_EXISTING).toFile();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+        tempFileProcessor.next(effectProcessor);
+        effectProcessor.next(outputFileProcessor);
 
-    private void createOutput() {
-        try {
-            output = Files.copy(temp.toPath(), output.toPath(), StandardCopyOption.COPY_ATTRIBUTES,
-                    StandardCopyOption.REPLACE_EXISTING).toFile();
-            temp.delete();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        tempFileProcessor.process(input);
     }
 }

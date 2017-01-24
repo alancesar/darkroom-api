@@ -1,20 +1,12 @@
 package org.alancesar.darkroom.engine.filter;
 
-import java.io.File;
+import org.alancesar.darkroom.engine.effect.Effect;
 
-import org.im4java.core.ConvertCmd;
-import org.im4java.core.IMOperation;
-
-@FunctionalInterface
 public interface Filter {
 
-    void apply(File input);
+    Effect effect();
 
-    default void runCommand(IMOperation op) {
-        try {
-            new ConvertCmd().run(op);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+    String name();
+
+    String shortName();
 }

@@ -1,11 +1,11 @@
 package org.alancesar.darkroom.engine.filter;
 
 import org.alancesar.darkroom.engine.effect.Effect;
-import org.alancesar.darkroom.engine.effect.filter.GothamEffect;
+import org.alancesar.darkroom.engine.effect.filter.NoFilterEffect;
 
-public class Gotham implements Filter {
-
-    private static final Effect FX = new GothamEffect();
+public class NoFilter implements Filter {
+    
+    private static final Effect FX = new NoFilterEffect();
 
     @Override
     public Effect effect() {
@@ -14,12 +14,12 @@ public class Gotham implements Filter {
 
     @Override
     public String name() {
-        return "Gotham";
+        return "No Filter";
     }
 
     @Override
     public String shortName() {
-        return "gotham";
+        return "no_filter";
     }
 
 }

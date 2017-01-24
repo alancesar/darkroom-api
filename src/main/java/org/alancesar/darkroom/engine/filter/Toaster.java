@@ -1,28 +1,25 @@
 package org.alancesar.darkroom.engine.filter;
 
-import java.io.File;
-
-import org.alancesar.darkroom.engine.editor.Effect;
-import org.im4java.core.IMOperation;
+import org.alancesar.darkroom.engine.effect.Effect;
+import org.alancesar.darkroom.engine.effect.filter.ToasterEffect;
 
 public class Toaster implements Filter {
 
+    private static final Effect FX = new ToasterEffect();
+
     @Override
-    public void apply(File input) {
+    public Effect effect() {
+        return FX;
+    }
 
-        Effect.colorTone(input, "#330000", 100, true);
+    @Override
+    public String name() {
+        return "Toaster";
+    }
 
-        IMOperation op = new IMOperation();
-        op.addImage(input.getAbsolutePath());
-        op.modulate(150d, 80d, 100d);
-        op.gamma(1.2);
-        op.contrast();
-        op.contrast();
-        op.addImage(input.getAbsolutePath());
-        runCommand(op);
-
-        Effect.vignette(input, "none", "LavenderBlush3");
-        Effect.vignette(input, "#ff9966", "none");
+    @Override
+    public String shortName() {
+        return "toaster";
     }
 
 }

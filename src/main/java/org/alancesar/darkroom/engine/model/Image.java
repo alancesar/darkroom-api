@@ -1,4 +1,4 @@
-package org.alancesar.darkroom.engine.editor;
+package org.alancesar.darkroom.engine.model;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

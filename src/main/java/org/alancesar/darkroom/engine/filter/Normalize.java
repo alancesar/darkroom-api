@@ -1,21 +1,25 @@
 package org.alancesar.darkroom.engine.filter;
 
-import java.io.File;
-
-import org.im4java.core.IMOperation;
+import org.alancesar.darkroom.engine.effect.Effect;
+import org.alancesar.darkroom.engine.effect.filter.NormalizeEffect;
 
 public class Normalize implements Filter {
 
-    @Override
-    public void apply(File input) {
+    private static final Effect FX = new NormalizeEffect();
 
-        IMOperation op = new IMOperation();
-        op.addImage(input.getAbsolutePath());
-        op.normalize();
-        op.contrast();
-        op.contrast();
-        op.addImage(input.getAbsolutePath());
-        runCommand(op);
+    @Override
+    public Effect effect() {
+        return FX;
+    }
+
+    @Override
+    public String name() {
+        return "Normalize";
+    }
+
+    @Override
+    public String shortName() {
+        return "normalize";
     }
 
 }

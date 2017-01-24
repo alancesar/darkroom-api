@@ -1,50 +1,30 @@
 package org.alancesar.darkroom.engine.filter;
 
-public enum Filters {
-    Gotham(new Gotham(), "Gotham", "gotham"),
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    Kelvin(new Kelvin(), "Kelvin", "kelvin"),
+public class Filters {
 
-    Lomo(new Lomo(), "Lomo", "lomo"),
+    private static final Map<String, Filter> filters = new HashMap<>();
 
-    Nashvile(new Nashville(), "Nashvile", "nashvile"),
-
-    Normalize(new Normalize(), "Normalize", "normalize"),
-
-    Toaster(new Toaster(), "Toaster", "toaster"),
-
-    NoFilter((input) -> {}, "No Filter", "nofilter");
-
-    private Filter filter;
-    private String longName;
-    private String shortName;
-
-    private Filters(Filter filter, String longName, String shotName) {
-        this.filter = filter;
-        this.longName = longName;
-        this.shortName = shotName;
+    static {
+        filters.put("gotham", new Gotham());
+        filters.put("kelvin", new Kelvin());
+        filters.put("lomo", new Lomo());
+        filters.put("nashville", new Nashville());
+        filters.put("normalize", new Normalize());
+        filters.put("toaster", new Toaster());
+        filters.put("nofilter", new NoFilter());
     }
 
-    public Filter getInstance() {
-        return filter;
+    public static Filter getByName(String filterName) {
+        return filters.get(filterName);
     }
 
-    public String getLongName() {
-        return longName;
+    public static List<Filter> getValues() {
+        return new ArrayList<Filter>(filters.values());
     }
 
-    public String getShortName() {
-        return shortName;
-    }
-
-    public static Filters getByName(String name) {
-        for (Filters filter : Filters.values()) {
-
-            if (filter.shortName.equalsIgnoreCase(name) || filter.longName.equalsIgnoreCase(name)) {
-                return filter;
-            }
-        }
-
-        return null;
-    }
 }

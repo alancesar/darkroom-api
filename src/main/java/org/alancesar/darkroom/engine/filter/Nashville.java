@@ -1,25 +1,25 @@
 package org.alancesar.darkroom.engine.filter;
 
-import java.io.File;
-
-import org.alancesar.darkroom.engine.editor.Effect;
-import org.im4java.core.IMOperation;
+import org.alancesar.darkroom.engine.effect.Effect;
+import org.alancesar.darkroom.engine.effect.filter.NashvilleEffect;
 
 public class Nashville implements Filter {
 
+    private static final Effect FX = new NashvilleEffect();
+
     @Override
-    public void apply(File input) {
+    public Effect effect() {
+        return FX;
+    }
 
-        Effect.colorTone(input, "#222b6d", 100, true);
-        Effect.colorTone(input, "#f7daae", 100, false);
+    @Override
+    public String name() {
+        return "Nashvile";
+    }
 
-        IMOperation op = new IMOperation();
-        op.addImage(input.getAbsolutePath());
-        op.contrast();
-        op.modulate(100d, 150d, 100d);
-        op.autoGamma();
-        op.addImage(input.getAbsolutePath());
-        runCommand(op);
+    @Override
+    public String shortName() {
+        return "nashvile";
     }
 
 }
