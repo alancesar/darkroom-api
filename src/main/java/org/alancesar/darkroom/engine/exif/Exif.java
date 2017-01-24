@@ -13,8 +13,9 @@ public class Exif {
     private final String flash;
     private final String whiteBalance;
 
-    public Exif(CameraExif camera, LensExif lens, CoordinatesExif coordinates, String focalLength, String focalLength35mm,
-            String exposureTime, String aperture, String iso, String flash, String whiteBalance) {
+    public Exif(CameraExif camera, LensExif lens, CoordinatesExif coordinates, String focalLength,
+            String focalLength35mm, String exposureTime, String aperture, String iso, String flash,
+            String whiteBalance) {
         this.camera = camera;
         this.lens = lens;
         this.coordinates = coordinates;
@@ -34,7 +35,7 @@ public class Exif {
     public LensExif getLens() {
         return lens;
     }
-    
+
     public CoordinatesExif getLocation() {
         return coordinates;
     }
@@ -70,18 +71,43 @@ public class Exif {
     @Override
     public String toString() {
 
-        StringBuilder output = new StringBuilder()
-                .append(camera != null ? "Camera\n" + "  Make.................... " + camera.getMake() + "\n" +
-                        "  Model................... " + camera.getModel() + "\n" : "")
-                .append(lens != null ? "Lens\n" + "  Make.................... " + lens.getMake() + "\n" +
-                        "  Model................... " + lens.getModel() + "\n" : "")
-                .append(coordinates != null ? "Location.................. " + coordinates.getLatitude() + ", " +
-                        coordinates.getLongitude() + "\n" : "")
-                .append("Focal Length.............. " + focalLength + "\n")
+        StringBuilder output = new StringBuilder();
+
+        if (camera != null) {
+            output.append("Camera\n");
+
+            if (camera.getMake() != null) {
+                output.append("  Make.................... " + camera.getMake() + "\n");
+            }
+
+            if (camera.getModel() != null) {
+                output.append("  Model................... " + camera.getModel() + "\n");
+            }
+        }
+
+        if (lens != null) {
+            output.append("Lens\n");
+
+            if (lens.getMake() != null) {
+                output.append("  Make.................... " + lens.getMake() + "\n");
+            }
+
+            if (lens.getModel() != null) {
+                output.append("  Model................... " + lens.getModel() + "\n");
+            }
+        }
+
+        if (coordinates != null) {
+            output.append("Location.................. " + coordinates.getLatitude() + ", " + 
+                    coordinates.getLongitude() + "\n");
+        }
+
+        output.append("Focal Length.............. " + focalLength + "\n")
                 .append("Focal Length (35mm film).. " + focalLength35mm + "\n")
                 .append("Exposure Time............. " + exposureTime + "\n")
                 .append("Aperture.................. " + aperture + "\n")
-                .append("ISO....................... " + iso + "\n").append("Flash..................... " + flash + "\n")
+                .append("ISO....................... " + iso + "\n")
+                .append("Flash..................... " + flash + "\n")
                 .append("White Balance............. " + whiteBalance);
 
         return output.toString();
