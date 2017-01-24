@@ -1,22 +1,22 @@
-package org.alancesar.darkroom.engine.processor;
+package org.alancesar.darkroom.engine.process;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-public class TempFileProcessor implements Processor {
+public class TempFileProcess implements Process {
 
-    private Processor next;
+    private Process next;
 
     @Override
-    public void process(File input) {
+    public void execute(File input) {
         try {
             File temp = File.createTempFile("darkroom", ".jpg");
             temp = Files.copy(input.toPath(), temp.toPath(), StandardCopyOption.COPY_ATTRIBUTES,
                     StandardCopyOption.REPLACE_EXISTING).toFile();
 
             if (next != null) {
-                next.process(temp);
+                next.execute(temp);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -29,7 +29,7 @@ public class TempFileProcessor implements Processor {
     }
 
     @Override
-    public void next(Processor next) {
+    public void next(Process next) {
         this.next = next;
     }
 

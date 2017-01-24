@@ -1,7 +1,7 @@
 package org.alancesar.darkroom.engine.filter;
 
-import org.alancesar.darkroom.engine.effect.Effect;
-import org.alancesar.darkroom.engine.effect.filter.LomoEffect;
+import org.alancesar.darkroom.engine.process.effect.Effect;
+import org.alancesar.darkroom.engine.process.effect.filter.LomoEffect;
 
 public class Lomo implements Filter {
 

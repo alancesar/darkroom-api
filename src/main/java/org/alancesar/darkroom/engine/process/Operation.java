@@ -1,4 +1,4 @@
-package org.alancesar.darkroom.engine.processor;
+package org.alancesar.darkroom.engine.process;
 
 import java.util.ArrayList;
 import java.util.Collections;

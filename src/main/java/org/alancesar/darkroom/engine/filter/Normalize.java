@@ -1,7 +1,7 @@
 package org.alancesar.darkroom.engine.filter;
 
-import org.alancesar.darkroom.engine.effect.Effect;
-import org.alancesar.darkroom.engine.effect.filter.NormalizeEffect;
+import org.alancesar.darkroom.engine.process.effect.Effect;
+import org.alancesar.darkroom.engine.process.effect.filter.NormalizeEffect;
 
 public class Normalize implements Filter {
 

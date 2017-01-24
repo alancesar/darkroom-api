@@ -1,24 +1,24 @@
-package org.alancesar.darkroom.engine.effect;
+package org.alancesar.darkroom.engine.process.effect;
 
 import java.io.File;
 
-import org.alancesar.darkroom.engine.processor.Operation;
-import org.alancesar.darkroom.engine.processor.Processor;
+import org.alancesar.darkroom.engine.process.Operation;
+import org.alancesar.darkroom.engine.process.Process;
 
-public abstract class Effect implements Processor {
+public abstract class Effect implements Process {
 
-    private Processor next;
+    private Process next;
     private File output;
 
     @Override
-    public final void process(File input) {
+    public final void execute(File input) {
 
         File output = this.output == null ? input : this.output;
 
         create(input, output).execute();
 
         if (next != null) {
-            next.process(output);
+            next.execute(output);
         }
     }
 
@@ -28,7 +28,7 @@ public abstract class Effect implements Processor {
     }
 
     @Override
-    public final void next(Processor next) {
+    public final void next(Process next) {
         this.next = next;
     }
 

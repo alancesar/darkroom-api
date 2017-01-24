@@ -1,7 +1,7 @@
 package org.alancesar.darkroom.engine.filter;
 
-import org.alancesar.darkroom.engine.effect.Effect;
-import org.alancesar.darkroom.engine.effect.filter.ToasterEffect;
+import org.alancesar.darkroom.engine.process.effect.Effect;
+import org.alancesar.darkroom.engine.process.effect.filter.ToasterEffect;
 
 public class Toaster implements Filter {
 

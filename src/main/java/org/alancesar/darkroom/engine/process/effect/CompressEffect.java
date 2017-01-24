@@ -1,8 +1,8 @@
-package org.alancesar.darkroom.engine.effect;
+package org.alancesar.darkroom.engine.process.effect;
 
 import java.io.File;
 
-import org.alancesar.darkroom.engine.processor.Operation;
+import org.alancesar.darkroom.engine.process.Operation;
 import org.im4java.core.IMOperation;
 
 public class CompressEffect extends Effect {

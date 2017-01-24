@@ -1,11 +1,11 @@
-package org.alancesar.darkroom.engine.effect.filter;
+package org.alancesar.darkroom.engine.process.effect.filter;
 
 import java.io.File;
 
-import org.alancesar.darkroom.engine.effect.BorderEffect;
-import org.alancesar.darkroom.engine.effect.Effect;
 import org.alancesar.darkroom.engine.model.Image;
-import org.alancesar.darkroom.engine.processor.Operation;
+import org.alancesar.darkroom.engine.process.Operation;
+import org.alancesar.darkroom.engine.process.effect.BorderEffect;
+import org.alancesar.darkroom.engine.process.effect.Effect;
 import org.im4java.core.IMOperation;
 
 public class GothamEffect extends Effect {
