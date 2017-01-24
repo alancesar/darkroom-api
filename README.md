@@ -46,17 +46,12 @@ Filters currently available:
 
 By name
 ```java
-String filterName = "Lomo";
+String filterName = "lomo";
 darkroom.applyFilter(filterName);
 ```
 By Filter instance
 ```java
 Filter filter = new Kelvin();
-darkroom.applyFilter(filter);
-```
-By enums
-```java
-Filters filter = Filters.Nashvile;
 darkroom.applyFilter(filter);
 ```
 ## Exif
