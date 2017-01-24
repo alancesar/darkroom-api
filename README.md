@@ -46,7 +46,7 @@ Filters currently available:
 
 By name
 ```java
-String filterName = "Lomo";
+String filterName = "lomo";
 darkroom.applyFilter(filterName);
 ```
 By Filter instance
