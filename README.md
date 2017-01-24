@@ -54,11 +54,6 @@ By Filter instance
 Filter filter = new Kelvin();
 darkroom.applyFilter(filter);
 ```
-By enums
-```java
-Filters filter = Filters.Nashvile;
-darkroom.applyFilter(filter);
-```
 ## Exif
 Extract Exif metadata from images, if available
 ```java
