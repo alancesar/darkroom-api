@@ -38,11 +38,14 @@ darkroom.compress(quality);
 ## Applying filters
 Filters currently available:
 - Gotham
+- Grayscale
 - Kelvin
 - Lomo
 - Nashvile
 - Normalize
 - Toaster
+- Night
+- Hight Contast
 
 By name
 ```java
