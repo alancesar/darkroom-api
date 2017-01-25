@@ -4,5 +4,5 @@ public interface Item<T> {
 
     T read(Dictionary dictionary);
 
-    void setNext(Item<T> next);
+    void next(Item<T> next);
 }

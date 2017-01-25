@@ -17,11 +17,6 @@ import org.alancesar.darkroom.engine.dictionary.photo.IsoItem;
 import org.alancesar.darkroom.engine.dictionary.photo.LensItem;
 import org.alancesar.darkroom.engine.dictionary.photo.ShutterSpeedItem;
 import org.alancesar.darkroom.engine.dictionary.photo.WhiteBalanceItem;
-import org.alancesar.darkroom.engine.exif.CameraExif;
-import org.alancesar.darkroom.engine.exif.CoordinatesExif;
-import org.alancesar.darkroom.engine.exif.Exif;
-import org.alancesar.darkroom.engine.exif.ExifBuilder;
-import org.alancesar.darkroom.engine.exif.LensExif;
 
 public class ExifReader {
 
@@ -38,6 +33,7 @@ public class ExifReader {
     private Item<String> iso;
     private Item<String> flash;
     private Item<String> whiteBalance;
+    private Item<String >software;
 
     private ExifReader() {
         camera = new CameraItem();
@@ -47,13 +43,14 @@ public class ExifReader {
         focalLength35mm = new FocalLength35mmItem();
         exposureTime = new ExposureTimeItem();
         shutterSpeed = new ShutterSpeedItem();
-        exposureTime.setNext(shutterSpeed);
+        exposureTime.next(shutterSpeed);
         aperture = new ApertureItem();
         fNumber = new FNumberItem();
-        aperture.setNext(fNumber);
+        aperture.next(fNumber);
         iso = new IsoItem();
         flash = new FlashItem();
         whiteBalance = new WhiteBalanceItem();
+        software = new SoftwareItem();
     }
 
     public static ExifReader getInstance() {
@@ -68,7 +65,7 @@ public class ExifReader {
                 .focalLength35mm(focalLength35mm.read(dictionary)).exposureTime(exposureTime.read(dictionary))
                 .aperture(aperture.read(dictionary)).iso(iso.read(dictionary)).flash(flash.read(dictionary))
                 .whiteBalance(whiteBalance.read(dictionary)).camera(camera.read(dictionary)).lens(lens.read(dictionary))
-                .coordinates(coordinates.read(dictionary));
+                .coordinates(coordinates.read(dictionary)).software(software.read(dictionary));
         
         return builder.build();
     }

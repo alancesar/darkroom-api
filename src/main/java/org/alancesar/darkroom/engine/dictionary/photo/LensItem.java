@@ -21,7 +21,7 @@ public class LensItem implements Item<LensExif> {
     }
 
     @Override
-    public void setNext(Item<LensExif> next) {
+    public void next(Item<LensExif> next) {
         return;
     }
 

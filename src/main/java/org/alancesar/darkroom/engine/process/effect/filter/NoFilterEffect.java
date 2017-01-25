@@ -8,7 +8,7 @@ import org.alancesar.darkroom.engine.process.effect.Effect;
 public class NoFilterEffect extends Effect {
 
     @Override
-    protected Operation create(File input, File output) {
+    public Operation create(File input, File output) {
         return new Operation();
     }
 

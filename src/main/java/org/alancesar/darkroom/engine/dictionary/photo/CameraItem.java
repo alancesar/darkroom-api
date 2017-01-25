@@ -21,7 +21,7 @@ public class CameraItem implements Item<CameraExif> {
     }
 
     @Override
-    public void setNext(Item<CameraExif> next) {
+    public void next(Item<CameraExif> next) {
         return;
     }
 

@@ -11,12 +11,15 @@ public class Filters {
 
     static {
         filters.put("gotham", new Gotham());
+        filters.put("grayscale", new Grayscale());
         filters.put("kelvin", new Kelvin());
         filters.put("lomo", new Lomo());
         filters.put("nashville", new Nashville());
         filters.put("normalize", new Normalize());
         filters.put("toaster", new Toaster());
+        filters.put("night", new Night());
         filters.put("nofilter", new NoFilter());
+        filters.put("highcontrast", new HighContrast());
     }
 
     public static Filter getByName(String filterName) {

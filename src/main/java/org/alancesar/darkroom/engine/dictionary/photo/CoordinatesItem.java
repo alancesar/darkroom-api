@@ -26,7 +26,7 @@ public class CoordinatesItem implements Item<CoordinatesExif> {
     }
 
     @Override
-    public void setNext(Item<CoordinatesExif> next) {
+    public void next(Item<CoordinatesExif> next) {
         return;
     }
 

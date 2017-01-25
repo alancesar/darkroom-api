@@ -3,8 +3,6 @@ package org.alancesar.darkroom.test;
 import java.io.File;
 
 import org.alancesar.darkroom.engine.Darkroom;
-import org.alancesar.darkroom.engine.filter.Filter;
-import org.alancesar.darkroom.engine.filter.Lomo;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,10 +18,9 @@ public class FilterTest {
             output.delete();
         }
 
-        Filter lomo = new Lomo();
         Darkroom darkroom = new Darkroom(input);
         darkroom.setOutput(output);
-        darkroom.applyFilter(lomo);
+        darkroom.applyFilter("highcontrast");
 
         Assert.assertTrue(output.exists());
     }

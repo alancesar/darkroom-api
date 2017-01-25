@@ -32,5 +32,5 @@ public abstract class Effect implements Process {
         this.next = next;
     }
 
-    protected abstract Operation create(File input, File output);
+    public abstract Operation create(File input, File output);
 }

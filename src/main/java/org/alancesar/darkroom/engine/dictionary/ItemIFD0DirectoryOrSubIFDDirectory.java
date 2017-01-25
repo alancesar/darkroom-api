@@ -21,7 +21,7 @@ public abstract class ItemIFD0DirectoryOrSubIFDDirectory implements Item<String>
     }
 
     @Override
-    public void setNext(Item<String> next) {
+    public void next(Item<String> next) {
         this.next = next;
     }
 

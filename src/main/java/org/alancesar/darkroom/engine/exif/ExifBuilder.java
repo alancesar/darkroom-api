@@ -12,6 +12,7 @@ public class ExifBuilder {
     private String iso;
     private String flash;
     private String whiteBalance;
+    private String software;
 
     public ExifBuilder camera(CameraExif camera) {
         this.camera = camera;
@@ -62,9 +63,14 @@ public class ExifBuilder {
         this.whiteBalance = whiteBalance;
         return this;
     }
+    
+    public ExifBuilder software(String software) {
+        this.software = software;
+        return this;
+    }
 
     public Exif build() {
         return new Exif(camera, lens, coordinates, focalLength, focalLength35mm, exposureTime, aperture, iso, flash,
-                whiteBalance);
+                whiteBalance, software);
     }
 }
