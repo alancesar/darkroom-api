@@ -20,7 +20,7 @@ public class FilterTest {
 
         Darkroom darkroom = new Darkroom(input);
         darkroom.setOutput(output);
-        darkroom.applyFilter("highcontrast");
+        darkroom.applyFilter("lomo");
 
         Assert.assertTrue(output.exists());
     }

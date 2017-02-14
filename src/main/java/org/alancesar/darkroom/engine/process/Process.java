@@ -4,10 +4,5 @@ import java.io.File;
 
 public interface Process {
 
-    void execute(File input);
-
-    void output(File output);
-
-    void next(Process next);
-
+    File execute(File input);
 }

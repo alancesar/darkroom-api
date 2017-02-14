@@ -9,7 +9,7 @@ import org.alancesar.darkroom.engine.filter.Filter;
 import org.alancesar.darkroom.engine.filter.Filters;
 import org.alancesar.darkroom.engine.model.Image;
 import org.alancesar.darkroom.engine.process.OutputFileProcess;
-import org.alancesar.darkroom.engine.process.Process;
+import org.alancesar.darkroom.engine.process.Processor;
 import org.alancesar.darkroom.engine.process.TempFileProcess;
 import org.alancesar.darkroom.engine.process.effect.CompressEffect;
 import org.alancesar.darkroom.engine.process.effect.ResizeEffect;
@@ -28,9 +28,8 @@ public class Darkroom {
         return output;
     }
 
-    public Darkroom setOutput(File output) {
+    public void setOutput(File output) {
         this.output = output;
-        return this;
     }
 
     public Exif getExif() {
@@ -42,14 +41,10 @@ public class Darkroom {
     }
 
     public void applyFilter(Filter filter) {
-        Process tempFileProcess = new TempFileProcess();
-        Process effectProcess = filter.effect();
-        Process outputFileProcess = new OutputFileProcess(output);
+        Processor processor = new Processor(new TempFileProcess()).andThen(filter.effect())
+                .andThen(new OutputFileProcess(output));
 
-        tempFileProcess.next(effectProcess);
-        effectProcess.next(outputFileProcess);
-
-        tempFileProcess.execute(input);
+        processor.execute(input);
     }
 
     public void applyFilter(String filterName) {
@@ -61,59 +56,36 @@ public class Darkroom {
     }
 
     public void resize(int width, int height) {
-        Process tempFileProcess = new TempFileProcess();
-        Process effectProcess = new ResizeEffect(width, height);
-        Process outputFileProcess = new OutputFileProcess(output);
+        Processor processor = new Processor(new TempFileProcess()).andThen(new ResizeEffect(width, height))
+                .andThen(new OutputFileProcess(output));
 
-        tempFileProcess.next(effectProcess);
-        effectProcess.next(outputFileProcess);
-
-        tempFileProcess.execute(input);
+        processor.execute(input);
     }
 
     public void resize(int width) {
-        Process tempFileProcess = new TempFileProcess();
-        Process effectProcess = new ResizeEffect(width);
-        Process outputFileProcess = new OutputFileProcess(output);
+        Processor processor = new Processor(new TempFileProcess()).andThen(new ResizeEffect(width))
+                .andThen(new OutputFileProcess(output));
 
-        tempFileProcess.next(effectProcess);
-        effectProcess.next(outputFileProcess);
-
-        tempFileProcess.execute(input);
+        processor.execute(input);
     }
 
     public void limitSize(int maxWidth) {
         if (new Image(input).getWidth() > maxWidth) {
-            Process tempFileProcess = new TempFileProcess();
-            Process effectProcess = new ResizeEffect(maxWidth);
-            Process outputFileProcess = new OutputFileProcess(output);
-
-            tempFileProcess.next(effectProcess);
-            effectProcess.next(outputFileProcess);
-
-            tempFileProcess.execute(input);
+            resize(maxWidth);
         }
     }
 
     public void compress(double quality) {
-        Process tempFileProcess = new TempFileProcess();
-        Process effectProcess = new CompressEffect(quality);
-        Process outputFileProcess = new OutputFileProcess(output);
+        Processor processor = new Processor(new TempFileProcess()).andThen(new CompressEffect(quality))
+                .andThen(new OutputFileProcess(output));
 
-        tempFileProcess.next(effectProcess);
-        effectProcess.next(outputFileProcess);
-
-        tempFileProcess.execute(input);
+        processor.execute(input);
     }
 
     public void compress() {
-        Process tempFileProcess = new TempFileProcess();
-        Process effectProcess = new CompressEffect();
-        Process outputFileProcess = new OutputFileProcess(output);
+        Processor processor = new Processor(new TempFileProcess()).andThen(new CompressEffect())
+                .andThen(new OutputFileProcess(output));
 
-        tempFileProcess.next(effectProcess);
-        effectProcess.next(outputFileProcess);
-
-        tempFileProcess.execute(input);
+        processor.execute(input);
     }
 }
