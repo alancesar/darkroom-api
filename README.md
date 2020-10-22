@@ -2,7 +2,7 @@
 Java API for photo editing
 
 ## Dependencies
-- [ImageMagick] (https://www.imagemagick.org/script/index.php)
+- [ImageMagick](https://www.imagemagick.org/script/index.php)
 
 ## Basic usage  
 ```java
